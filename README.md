@@ -1,15 +1,31 @@
-# Welcome to your CDK TypeScript project
-
-You should explore the contents of this project. It demonstrates a CDK app with an instance of a stack (`HubspotLambdaDemoStack`)
-which contains an Amazon SQS queue that is subscribed to an Amazon SNS topic.
-
-The `cdk.json` file tells the CDK Toolkit how to execute your app.
-
-## Useful commands
-
-* `npm run build`   compile typescript to js
-* `npm run watch`   watch for changes and compile
-* `npm run test`    perform the jest unit tests
-* `cdk deploy`      deploy this stack to your default AWS account/region
-* `cdk diff`        compare deployed stack with current state
-* `cdk synth`       emits the synthesized CloudFormation template
+# hubspot-api
+## Platformr Hubspot API Integration
+## Using Docker and Node.js, open docker in the backgound and run ```npm install``` before deploying
+### Overview
+This is a cdk app that will create several lambda functions to read and write contact and company data to and from hubspot
+#
+- This deployment package conatains 4 lambda functions:
+ - hubspotContactGet: Obtains a hubspot contact using an email address
+ - hubspotContactPost: Creates a hubspot contact
+ - hubspotCompanyGet: Obtains a hubspot company using an orgid
+ - hubspotCompanyPost: Creates a hubspot company and contact
+#
+### Hubspot Setup
+- Create a new hubspot developer account
+- Create a new private app
+#
+- #### In scopes, select the following permissions:
+ - crm.objects.companies.read
+ - crm.objects.contacts.read
+ - crm.objects.contacts.write
+ - crm.objects.companies.write
+### AWS Setup
+- Using the accessToken from the app, create an AWS Secrets Manager secret
+ - Name the accessToken 'hubspotAccessToken'
+ - When you rotate the accessToken, you will need to update them through AWS as well
+ - Enable function urls on the lambda functions
+### Required Query Properties
+ - hubspotContactGet: 'email'
+ - hubspotContactPost: 'firstname', 'lastname', 'email', 'orgid'
+ - hubspotCompanyGet: 'orgid'
+ - hubspotCompanyPost: 'firstname', 'lastname', 'email', 'orgid', 'domain', 'companyname'
