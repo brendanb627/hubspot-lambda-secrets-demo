@@ -21,7 +21,19 @@ export class HubspotLambdaDemoStack extends cdk.Stack {
         actions: ['secretsmanager:GetSecretValue'],
         resources: ['*'],
       }),
-    )
+    );
+
+    hubspotFunctionRole.addToPolicy(
+      new iam.PolicyStatement({
+        effect: iam.Effect.ALLOW,
+        actions: [
+          'logs:CreateLogGroup',
+          'logs:CreateLogStream',
+          'logs:PutLogEvents',
+        ],
+        resources: ['arn:aws:logs:*:*:*'],
+      }),
+    );
 
     new NodejsFunction(this, "HubspotGetContactFunction", {
       functionName: "hubspot-get-contact",
@@ -52,6 +64,22 @@ export class HubspotLambdaDemoStack extends cdk.Stack {
       runtime: lambda.Runtime.NODEJS_20_X,
       handler: "hubspotPostCompany",
       entry: join(__dirname, "handlers", "hubspotPostCompany.js"),
+      role: hubspotFunctionRole
+    });
+
+    new NodejsFunction(this, "HubspotUpdateContactFunction", {
+      functionName: "hubspot-update-contact",
+      runtime: lambda.Runtime.NODEJS_20_X,
+      handler: "hubspotUpdateContact",
+      entry: join(__dirname, "handlers", "hubspotUpdateContact.js"),
+      role: hubspotFunctionRole
+    });
+
+    new NodejsFunction(this, "HubspotUpdateCompanyFunction", {
+      functionName: "hubspot-update-company",
+      runtime: lambda.Runtime.NODEJS_20_X,
+      handler: "hubspotUpdateCompany",
+      entry: join(__dirname, "handlers", "hubspotUpdateCompany.js"),
       role: hubspotFunctionRole
     });
   }
