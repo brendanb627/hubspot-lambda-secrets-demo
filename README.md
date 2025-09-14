@@ -1,5 +1,4 @@
-# hubspot-api
-## Platformr Hubspot API Integration
+## Hubspot API Integration
 ## Using Docker and Node.js:
  open docker in the backgound and run ```npm install``` before deploying
 ### Overview
@@ -26,8 +25,8 @@ This is a cdk app that will create several lambda functions to read and write co
 
  > [!NOTE]
  >#### Nothing will integrate into hubspot without the following changes:
- - Add 'platformr_orgid' to the contact properties
- - Add 'platformr_orgid', 'platformr_aws_account_id', 'platformr_product_id' and 'platformr_product_name' to the company properties
+ - Add 'company_orgid' to the contact properties
+ - Add 'company_orgid', 'company_aws_account_id', 'company_product_id' and 'company_product_name' to the company properties
 
  > [!NOTE]
  >#### You can add custom properties by going to Hubspot > CRM, choose contact or company table, click Actions > Edit Properties > Add Property. All properties above require single-line text field type
@@ -38,11 +37,11 @@ This is a cdk app that will create several lambda functions to read and write co
  - When you rotate the accessToken, you will need to update it through AWS as well
 ### Required Query Properties
  - hubspotContactGet: 'email'
- - hubspotContactPost: 'firstname', 'lastname', 'email', 'platformr_orgid'
- - hubspotCompanyGet: 'platformr_orgid'
- - hubspotCompanyPost: 'firstname', 'lastname', 'email', 'platformr_orgid', 'domain', 'companyname', 'platformr_aws_account_id', 'platformr_product_id', 'platformr_product_name'
+ - hubspotContactPost: 'firstname', 'lastname', 'email', 'company_orgid'
+ - hubspotCompanyGet: 'company_orgid'
+ - hubspotCompanyPost: 'firstname', 'lastname', 'email', 'company_orgid', 'domain', 'companyname', 'company_aws_account_id', 'company_product_id', 'company_product_name'
  - hubspotUpdateContact: 'email' and at least one of the following: 'firstname', 'lastname'
- - hubspotUpdateCompany: 'platformr_orgid' and at least one of the following: 'domain', 'companyname', 'platformr_product_id', 'platformr_product_name'
+ - hubspotUpdateCompany: 'company_orgid' and at least one of the following: 'domain', 'companyname', 'company_product_id', 'company_product_name'
 ### JSON Body Example:
 ```JSON
 //Post Company Example
@@ -50,11 +49,11 @@ This is a cdk app that will create several lambda functions to read and write co
     "firstname":"Brendan",
     "lastname":"Bessman",
     "email":"Bdbessman@gmail.com",
-    "platformr_orgid":"1234567890",
-    "domain":"platformr.cloud",
-    "companyname":"Platformr",
-    "platformr_aws_account_id":"1203981",
-    "platformr_product_id":"54321",
-    "platformr_product_name":"Example Product Name"
+    "company_orgid":"1234567890",
+    "domain":"example.cloud",
+    "companyname":"Example",
+    "company_aws_account_id":"1203981",
+    "company_product_id":"54321",
+    "company_product_name":"Example Product Name"
 }
 ```
